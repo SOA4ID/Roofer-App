@@ -2,7 +2,7 @@
 
 ## About
 
-This project consists of a simple [react-native](https://facebook.github.io/react-native/) application used to control a Smart Roof prototype with a NodeMCU, throuh the MQTT IoT protocol. For the arduino code associated with the prototypes, you can go [here](https://github.com/SOA4ID/auto_roof-arduino_code). 
+This project consists of a simple [react-native](https://facebook.github.io/react-native/) application used to control a Smart Roof prototype with a NodeMCU, throuh the MQTT IoT protocol. For the arduino code associated with the prototypes, you can go [here](https://github.com/SOA4ID/Roofer-Arduino). 
 
 ## Instalation
 
@@ -14,8 +14,8 @@ npm install -g create-react-native
 ```
 Once everything is installed correctly, you can proceed to clone the repository and install the dependencies.
 ```bash
-git clone https://github.com/SOA4ID/auto_roof-react_native.git
-cd /auto_roof-react_native/Roofer
+git clone https://github.com/SOA4ID/Roofer-App.git
+cd /Roofer-App/react_app
 npm install
 ```
 
