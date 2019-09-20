@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { Root } from 'native-base';
 
 // Component imports
 import DrawerNav from './components/drawer-navigator';
 import Login from './components/screens/login-screen';
-import { Root } from 'native-base';
+import SignupScreen from './components/screens/signup-screen';
 
 class MainScreen extends Component {
   static navigationOptions = {
@@ -21,6 +22,7 @@ const RootStack = createStackNavigator(
   {
     Login: Login,
     Main: MainScreen,
+    SignUp: SignupScreen,
   },
   { initialRouteName: 'Login' },
 );
@@ -36,5 +38,3 @@ export default class App extends Component {
     );
   }
 }
-
-

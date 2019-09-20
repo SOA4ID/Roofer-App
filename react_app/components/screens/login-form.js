@@ -54,7 +54,6 @@ export default class LoginForm extends Component {
           placeholderTextColor="rgba(255,255,255,0.8)"
           style={styles.input}
           onSubmitEditing={() => this.passwordInput.focus()}
-          keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
           ref={el => {

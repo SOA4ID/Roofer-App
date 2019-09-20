@@ -5,9 +5,9 @@ import { View, Image, Text, TouchableOpacity } from 'react-native';
 
 import Colors from '../../assets/colors';
 
-import LoginForm from './login-form';
+import SignupForm from './signup-form';
 
-export default class Login extends Component {
+export default class SignupScreen extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -19,19 +19,20 @@ export default class Login extends Component {
             style={styles.logo}
             source={require('../../assets/images/logo_white.png')}
           />
+
           <Text style={styles.buttonText}>
             {' '}
-            Don't have an account yet? Sign Up
+            Already have an account? Login
           </Text>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('SignUp')}>
+            onPress={() => this.props.navigation.navigate('Login')}>
             <Text style={styles.buttonText}> HERE </Text>
           </TouchableOpacity>
 
-          <Text style={styles.title}>LOGIN</Text>
+          <Text style={styles.title}>SIGN UP</Text>
         </View>
         <View style={styles.formContainer}>
-          <LoginForm navigation={this.props.navigation} />
+          <SignupForm napasswordpasswordvigation={this.props.navigation} />
         </View>
       </View>
     );
