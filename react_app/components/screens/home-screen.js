@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {Icon, Container, Content, View, Text} from 'native-base';
+import React, { Component } from 'react';
+import { Icon, Container, Content, View, Text } from 'native-base';
 
 import Colors from '../../assets/colors';
 
 import init from 'react_native_mqtt';
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 import config from '../../assets/Config';
 
@@ -18,6 +18,7 @@ init({
 });
 
 export default class HomeScreen extends Component {
+  
   constructor(props) {
     super(props);
 
@@ -54,7 +55,7 @@ export default class HomeScreen extends Component {
   };
 
   onConnect = () => {
-    const {client} = this.state;
+    const { client } = this.state;
     client.subscribe('/temp');
     client.subscribe('/light');
     client.subscribe('/humidity');
@@ -65,15 +66,15 @@ export default class HomeScreen extends Component {
     //this.setState({message: message.payloadString});
     switch (message.destinationName) {
       case '/temp':
-        this.setState({temp: message.payloadString});
+        this.setState({ temp: message.payloadString });
         break;
 
       case '/light':
-        this.setState({light: message.payloadString});
+        this.setState({ light: message.payloadString });
         break;
 
       case '/humidity':
-        this.setState({humidity: message.payloadString});
+        this.setState({ humidity: message.payloadString });
         break;
     }
   };

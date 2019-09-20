@@ -1,15 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 
-import React, {Component} from 'react';
-import {View, Image, TouchableOpacity} from 'react-native';
+import React, { Component } from 'react';
+import { View, Image, TouchableOpacity } from 'react-native';
 // Navigation Imports
-import {createAppContainer} from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
 import {
   createDrawerNavigator,
   DrawerNavigatorItems,
 } from 'react-navigation-drawer';
-import {createStackNavigator} from 'react-navigation-stack';
-import {Container, Content} from 'native-base';
+import { createStackNavigator } from 'react-navigation-stack';
+import { Container, Content } from 'native-base';
 // Screen Imports
 import HomeScreen from './screens/home-screen';
 import SettingsScreen from './screens/settings-screen';
@@ -24,12 +24,12 @@ class NavigationDrawerStructure extends Component {
   };
   render() {
     return (
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
           {/*Donute Button Image */}
           <Image
             source={require('../assets/images/menu.png')}
-            style={{width: 25, height: 25, marginLeft: 5}}
+            style={{ width: 25, height: 25, marginLeft: 5 }}
           />
         </TouchableOpacity>
       </View>
@@ -41,7 +41,7 @@ const Home_StackNavigator = createStackNavigator({
   //All the screen from the Screen1 will be indexed here
   First: {
     screen: HomeScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Home',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
@@ -56,7 +56,7 @@ const Settings_StackNavigator = createStackNavigator({
   //All the screen from the Screen1 will be indexed here
   First: {
     screen: SettingsScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Settings  ',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
@@ -81,6 +81,7 @@ const CustomDrawerComponent = props => (
 );
 
 const DrawerNav = createDrawerNavigator(
+  
   {
     Home: {
       screen: Home_StackNavigator,
