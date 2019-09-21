@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { AsyncStorage } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Root } from 'native-base';
@@ -30,10 +31,29 @@ const RootStack = createStackNavigator(
 const AppContainer = createAppContainer(RootStack);
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLogged: false,
+    };
+  }
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('userName');
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
   render() {
     return (
       <Root>
-        <AppContainer />
+        <DrawerNav />
       </Root>
     );
   }

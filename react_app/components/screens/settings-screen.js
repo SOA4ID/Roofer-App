@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
 import {
   Button,
   Container,
@@ -12,7 +12,7 @@ import {
 import Colors from '../../assets/colors';
 
 import init from 'react_native_mqtt';
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 import config from '../../assets/Config';
 
@@ -44,6 +44,7 @@ export default class SettingsScreen extends Component {
       deployer_auto: false,
       descender_auto: false,
       client,
+      paired: null,
     };
   }
 
@@ -60,29 +61,43 @@ export default class SettingsScreen extends Component {
   };
 
   onConnect = () => {
-    const {client} = this.state;
+    const { client } = this.state;
     client.subscribe('/temp');
     client.subscribe('/light');
     client.subscribe('/humidity');
     console.log('Connected to the broker successfully');
   };
 
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('PairedDevices');
+      if (value !== null) {
+        this.setState({ paired: JSON.parse(value) });
+        console.log(value);
+      } else {
+        console.log('value is null');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   toggleDeployerMode = () => {
     if (this.state.deployer_auto) {
-      this.setState({deployer_auto: false});
+      this.setState({ deployer_auto: false });
       this.state.client.publish('/modes', '02');
     } else {
-      this.setState({deployer_auto: true});
+      this.setState({ deployer_auto: true });
       this.state.client.publish('/modes', '12');
     }
   };
 
   toggleDescenderMode = () => {
     if (this.state.descender_auto) {
-      this.setState({descender_auto: false});
+      this.setState({ descender_auto: false });
       this.state.client.publish('/modes', '21');
     } else {
-      this.setState({descender_auto: true});
+      this.setState({ descender_auto: true });
       this.state.client.publish('/modes', '20');
     }
   };
@@ -94,6 +109,12 @@ export default class SettingsScreen extends Component {
   activateDescender = () => {
     this.state.client.publish('/actions', '01');
   };
+
+  componentDidMount() {
+    console.log('mount Settings');
+    this._retrieveData();
+    console.log(this.state.paired);
+  }
 
   render() {
     return (
@@ -115,7 +136,7 @@ export default class SettingsScreen extends Component {
               rounded
               block
               style={styles.button}
-              onPress={() => this.activateDeployer()}>
+              onPress={() => console.log(this.state.paired)}>
               <Text style={styles.button_text}> ACTIVATE ROOF </Text>
             </Button>
           </View>
@@ -156,7 +177,6 @@ const styles = {
   main_view: {
     alignSelf: 'flex-start',
     marginBottom: 50,
-    
   },
 
   auto_view: {

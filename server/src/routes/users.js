@@ -1,5 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
+const Device = require('../models/Device');
+const Roof = require('../models/Roof');
 
 const router = express.Router();
 
@@ -30,6 +32,16 @@ router.post('/login',  async (req, res) => {
     }
 
     
+});
+
+router.post('/roofs',  async (req, res) => {
+    try {
+        const device = await Device.findOne({owner: req.body.username});
+        const roofs = await Roof.find({device: device.unitNumber});
+        res.json({status: 'success' , message: roofs});
+    } catch (err) {
+        res.json({status: 'failed' , message: err});
+    }
 });
 
 router.post('/', async (req,res) => {

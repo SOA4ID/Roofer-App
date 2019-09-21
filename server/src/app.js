@@ -7,10 +7,14 @@ require('dotenv/config');
 
 // Import Routes
 const usersRoute = require('./routes/users');
+const roofRoute = require('./routes/roofs');
+const deviceRoute = require('./routes/devices');
 
 // MiddleWare
 app.use(bodyParser.json());
 app.use('/users', usersRoute);
+app.use('/roofs', roofRoute);
+app.use('/devices', deviceRoute);
 
 // ROUTES
 app.get('/', (req, res) => {

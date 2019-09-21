@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Icon, Container, Content, View, Text } from 'native-base';
-
-import Colors from '../../assets/colors';
-
+import { Icon, Container, Content, View, Text, Button } from 'native-base';
 import init from 'react_native_mqtt';
 import { AsyncStorage } from 'react-native';
 
 import config from '../../assets/Config';
+import Colors from '../../assets/colors';
+
+import PairModal from './modal';
 
 init({
   size: 10000,
@@ -18,7 +18,6 @@ init({
 });
 
 export default class HomeScreen extends Component {
-  
   constructor(props) {
     super(props);
 
@@ -38,6 +37,8 @@ export default class HomeScreen extends Component {
       temp: '0',
       light: '0',
       humidity: '0',
+      username: 'NO-User',
+      paired: false,
       client,
     };
   }
@@ -79,13 +80,28 @@ export default class HomeScreen extends Component {
     }
   };
 
-  render() {
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('userName');
+      if (value !== null) {
+        this.setState({ username: value });
+        console.log(value);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
+  renderHome() {
     return (
       <Container>
         <Content contentContainerStyle={styles.home_content}>
           <View style={styles.temp_view}>
             <Text style={styles.temp_text}>{this.state.temp}</Text>
             <Text style={styles.temp_unit}>°C</Text>
+          </View>
+          <View>
+            <Text>{this.state.username}</Text>
           </View>
           <View style={styles.sensor_view}>
             <View style={styles.light_view}>
@@ -103,6 +119,40 @@ export default class HomeScreen extends Component {
       </Container>
     );
   }
+
+  renderNoDevice() {
+    return (
+      <Container>
+        <Content contentContainerStyle={styles.paired_content}>
+          <View style={styles.defView}>
+            <Text style={styles.message_text}>
+              No devices have been paired yet
+            </Text>
+          </View>
+          <Button
+            light
+            rounded
+            style={styles.button}
+            onPress={() => this.pairModal.show()}>
+            <Text style={styles.button_text}> PAIR NEW DEVICE </Text>
+          </Button>
+        </Content>
+        <PairModal
+          ref={modal => (this.pairModal = modal)}
+          parentComponent={this}
+        />
+      </Container>
+    );
+  }
+
+  componentDidMount() {
+    this._retrieveData();
+    console.log('MountHome');
+  }
+
+  render() {
+    return this.state.paired ? this.renderHome() : this.renderNoDevice();
+  }
 }
 
 const styles = {
@@ -110,6 +160,13 @@ const styles = {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: Colors.primary_dark,
+  },
+
+  paired_content: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: Colors.primary_dark,
   },
 
@@ -177,14 +234,30 @@ const styles = {
     alignSelf: 'flex-start',
     marginLeft: 15,
   },
+
+  message_text: {
+    color: Colors.white,
+    fontSize: 20,
+    marginBottom: 20,
+  },
   main_view: {
     flex: 1,
     backgroundColor: '#000000',
   },
 
   button: {
+    alignSelf: 'center',
+    marginTop: 15,
+  },
+
+  button_text: {
+    fontSize: 20,
+    color: Colors.primary_dark,
+  },
+
+  defView: {
     backgroundColor: Colors.primary_dark,
-    width: 50,
-    height: 20,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
 };

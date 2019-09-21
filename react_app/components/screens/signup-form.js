@@ -1,7 +1,13 @@
 import React from 'react';
 import { Component } from 'react';
 
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  AsyncStorage,
+} from 'react-native';
 
 import Colors from '../../assets/colors';
 import { Toast } from 'native-base';
@@ -42,6 +48,7 @@ export default class SignupForm extends Component {
         .then(responseJson => {
           console.log(responseJson.message);
           if (responseJson.message == 'Accepted') {
+            this._storeData();
             this.props.navigation.navigate('Main');
           } else {
             Toast.show({
@@ -55,6 +62,15 @@ export default class SignupForm extends Component {
         });
     }
   };
+
+  _storeData = async () => {
+    try {
+      await AsyncStorage.setItem('userName', this.state.username);
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
   render() {
     return (
       <View style={styles.container}>
