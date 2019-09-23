@@ -5,29 +5,30 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { Root } from 'native-base';
 
 // Component imports
-import DrawerNav from './components/drawer-navigator';
+import DrawerNav from './components/navs/drawer-navigator';
 import Login from './components/screens/login-screen';
 import SignupScreen from './components/screens/signup-screen';
 
+// Represents the main content of the App, which has its own navigation system
 class MainScreen extends Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
   render() {
     return <DrawerNav />;
   }
 }
-// Asset imports
-
+// Basic navigation implementation to include a login&signup screen
 const RootStack = createStackNavigator(
   {
     Login: Login,
     Main: MainScreen,
-    SignUp: SignupScreen,
+    SignUp: SignupScreen
   },
-  { initialRouteName: 'Login' },
+  { initialRouteName: 'Login' }
 );
 
+// Contains the navigation system and prepares it for rendering
 const AppContainer = createAppContainer(RootStack);
 
 export default class App extends Component {
@@ -35,14 +36,16 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      isLogged: false,
+      isLogged: false // Keeps track of the login state of the user
     };
   }
+
+  // Lets the app know the user has logged in during initialization
   _retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('userName');
       if (value !== null) {
-        // We have data!!
+        this.setState({ isLogged: true });
         console.log(value);
       }
     } catch (error) {
@@ -50,11 +53,11 @@ export default class App extends Component {
     }
   };
 
+  // Navigates to the login screen if the user is new, and to the main screen if the user has
+  // logged in the past
   render() {
     return (
-      <Root>
-        <DrawerNav />
-      </Root>
+      <Root>{this.state.isLogged ? <AppContainer /> : <DrawerNav />}</Root>
     );
   }
 }

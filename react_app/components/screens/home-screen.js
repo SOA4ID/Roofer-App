@@ -3,10 +3,10 @@ import { Icon, Container, Content, View, Text, Button } from 'native-base';
 import init from 'react_native_mqtt';
 import { AsyncStorage } from 'react-native';
 
-import config from '../../assets/Config';
-import Colors from '../../assets/colors';
+import config from '../config/Config';
+import Colors from '../config/colors';
 
-import PairModal from './modal';
+import PairModal from '../modals/pair-modal';
 
 init({
   size: 10000,
@@ -14,14 +14,13 @@ init({
   defaultExpires: 1000 * 3600 * 24,
   enableCache: true,
   reconnect: true,
-  sync: {},
+  sync: {}
 });
 
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
 
-    // eslint-disable-next-line no-undef
     const client = new Paho.MQTT.Client(config.host, config.port, 'android');
     client.onConnectionLost = this.onConnectionLost;
     client.onMessageArrived = this.onMessageArrived;
@@ -30,19 +29,19 @@ export default class HomeScreen extends Component {
       useSSL: true,
       userName: config.username,
       password: config.password,
-      onFailure: this.failed,
+      onFailure: this.failed
     });
 
     this.state = {
-      temp: '0',
-      light: '0',
       humidity: '0',
-      username: 'NO-User',
+      light: '0',
       paired: false,
-      client,
+      temp: '0',
+      username: 'NO-User',
+      client
     };
   }
-
+  // MQTT functions
   failed = responseObject => {
     console.log('failed');
     console.log(responseObject.errorMessage);
@@ -64,7 +63,6 @@ export default class HomeScreen extends Component {
   };
 
   onMessageArrived = message => {
-    //this.setState({message: message.payloadString});
     switch (message.destinationName) {
       case '/temp':
         this.setState({ temp: message.payloadString });
@@ -80,12 +78,24 @@ export default class HomeScreen extends Component {
     }
   };
 
+  // AsyncStorage functions
   _retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('userName');
       if (value !== null) {
         this.setState({ username: value });
         console.log(value);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
+  checkPairing = async () => {
+    try {
+      const value = await AsyncStorage.getItem('PairedDevices');
+      if (value !== null) {
+        this.setState({ paired: true });
       }
     } catch (error) {
       // Error retrieving data
@@ -105,12 +115,12 @@ export default class HomeScreen extends Component {
           </View>
           <View style={styles.sensor_view}>
             <View style={styles.light_view}>
-              <Icon name="light-up" type="Entypo" style={styles.light_icon} />
+              <Icon name='light-up' type='Entypo' style={styles.light_icon} />
               <Text style={styles.sensor_text}>{this.state.light}</Text>
               <Text style={styles.unit_text}>%</Text>
             </View>
             <View style={styles.light_view}>
-              <Icon name="water" type="Entypo" style={styles.humidity_icon} />
+              <Icon name='water' type='Entypo' style={styles.humidity_icon} />
               <Text style={styles.sensor_text}>{this.state.humidity}</Text>
               <Text style={styles.unit_text}>%</Text>
             </View>
@@ -120,6 +130,7 @@ export default class HomeScreen extends Component {
     );
   }
 
+  // Component functions
   renderNoDevice() {
     return (
       <Container>
@@ -133,7 +144,8 @@ export default class HomeScreen extends Component {
             light
             rounded
             style={styles.button}
-            onPress={() => this.pairModal.show()}>
+            onPress={() => this.pairModal.show()}
+          >
             <Text style={styles.button_text}> PAIR NEW DEVICE </Text>
           </Button>
         </Content>
@@ -147,7 +159,8 @@ export default class HomeScreen extends Component {
 
   componentDidMount() {
     this._retrieveData();
-    console.log('MountHome');
+    this.checkPairing();
+    console.log('MountH');
   }
 
   render() {
@@ -160,28 +173,28 @@ const styles = {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: Colors.primary_dark,
+    backgroundColor: Colors.primary_dark
   },
 
   paired_content: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.primary_dark,
+    backgroundColor: Colors.primary_dark
   },
 
   light_icon: {
     fontSize: 35,
     marginRight: 10,
     marginLeft: 5,
-    color: Colors.yellow,
+    color: Colors.yellow
   },
 
   humidity_icon: {
     fontSize: 35,
     marginRight: 10,
     marginLeft: 5,
-    color: Colors.baby_blue,
+    color: Colors.baby_blue
   },
 
   light_view: {
@@ -189,21 +202,21 @@ const styles = {
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
-    alignSelf: 'flex-start',
+    alignSelf: 'flex-start'
   },
 
   temp_view: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
 
   sensor_view: {
     alignContent: 'flex-start',
     justifyContent: 'center',
     marginBottom: 5,
-    alignSelf: 'flex-start',
+    alignSelf: 'flex-start'
   },
 
   temp_text: {
@@ -211,7 +224,7 @@ const styles = {
     fontSize: 90,
     alignSelf: 'center',
     marginTop: 50,
-    marginBottom: 200,
+    marginBottom: 200
   },
 
   temp_unit: {
@@ -219,45 +232,45 @@ const styles = {
     fontSize: 60,
     marginTop: 70,
     alignSelf: 'center',
-    marginBottom: 200,
+    marginBottom: 200
   },
 
   sensor_text: {
     color: Colors.white,
     fontSize: 45,
-    alignSelf: 'flex-start',
+    alignSelf: 'flex-start'
   },
 
   unit_text: {
     color: Colors.primary_light,
     fontSize: 45,
     alignSelf: 'flex-start',
-    marginLeft: 15,
+    marginLeft: 15
   },
 
   message_text: {
     color: Colors.white,
     fontSize: 20,
-    marginBottom: 20,
+    marginBottom: 20
   },
   main_view: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#000000'
   },
 
   button: {
     alignSelf: 'center',
-    marginTop: 15,
+    marginTop: 15
   },
 
   button_text: {
     fontSize: 20,
-    color: Colors.primary_dark,
+    color: Colors.primary_dark
   },
 
   defView: {
     backgroundColor: Colors.primary_dark,
     alignContent: 'center',
-    justifyContent: 'center',
-  },
+    justifyContent: 'center'
+  }
 };

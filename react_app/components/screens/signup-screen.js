@@ -1,15 +1,15 @@
 import React from 'react';
 import { Component } from 'react';
 
-import { View, Image, Text, TouchableOpacity } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 
-import Colors from '../../assets/colors';
+import Colors from '../config/colors';
 
-import SignupForm from './signup-form';
+import SignupForm from '../forms/signup-form';
 
 export default class SignupScreen extends Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
   render() {
     return (
@@ -20,12 +20,10 @@ export default class SignupScreen extends Component {
             source={require('../../assets/images/logo_white.png')}
           />
 
-          <Text style={styles.buttonText}>
-            {' '}
-            Already have an account? Login
-          </Text>
+          <Text style={styles.buttonText}> Already have an account? Login</Text>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Login')}>
+            onPress={() => this.props.navigation.navigate('Login')}
+          >
             <Text style={styles.buttonText}> HERE </Text>
           </TouchableOpacity>
 
@@ -42,18 +40,18 @@ export default class SignupScreen extends Component {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: Colors.primary_dark,
+    backgroundColor: Colors.primary_dark
   },
 
   logoContainer: {
     alignItems: 'center',
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   logo: {
     width: 100,
     height: 100,
-    opacity: 0.8,
+    opacity: 0.8
   },
   title: {
     color: Colors.white,
@@ -61,12 +59,12 @@ const styles = {
     marginTop: 15,
     opacity: 0.8,
     position: 'absolute',
-    bottom: 0,
+    bottom: 0
   },
   buttonText: {
     textAlign: 'center',
     color: Colors.primary_text,
     fontWeight: '700',
-    marginTop: 15,
-  },
+    marginTop: 15
+  }
 };

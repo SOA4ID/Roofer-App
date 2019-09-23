@@ -2,14 +2,14 @@ import React from 'react';
 import { Component } from 'react';
 
 import {
-  View,
+  AsyncStorage,
+  Text,
   TextInput,
   TouchableOpacity,
-  Text,
-  AsyncStorage,
+  View
 } from 'react-native';
 
-import Colors from '../../assets/colors';
+import Colors from '../config/colors';
 import { Toast } from 'native-base';
 
 export default class LoginForm extends Component {
@@ -19,7 +19,7 @@ export default class LoginForm extends Component {
     this.state = {
       username: '',
       password: '',
-      message: '',
+      message: ''
     };
   }
 
@@ -29,12 +29,12 @@ export default class LoginForm extends Component {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         username: this.state.username,
-        password: this.state.password,
-      }),
+        password: this.state.password
+      })
     })
       .then(response => response.json())
       .then(responseJson => {
@@ -45,7 +45,7 @@ export default class LoginForm extends Component {
         } else {
           Toast.show({
             text: responseJson.message,
-            buttonText: 'Okay',
+            buttonText: 'Okay'
           });
         }
       })
@@ -66,11 +66,11 @@ export default class LoginForm extends Component {
     return (
       <View style={styles.container}>
         <TextInput
-          placeholder="username"
-          placeholderTextColor="rgba(255,255,255,0.8)"
+          placeholder='username'
+          placeholderTextColor='rgba(255,255,255,0.8)'
           style={styles.input}
           onSubmitEditing={() => this.passwordInput.focus()}
-          autoCapitalize="none"
+          autoCapitalize='none'
           autoCorrect={false}
           ref={el => {
             this.username = el;
@@ -79,8 +79,8 @@ export default class LoginForm extends Component {
           value={this.state.username}
         />
         <TextInput
-          placeholder="password"
-          placeholderTextColor="rgba(255,255,255,0.8)"
+          placeholder='password'
+          placeholderTextColor='rgba(255,255,255,0.8)'
           secureTextEntry
           style={styles.input}
           ref={input => (this.passwordInput = input)}
@@ -90,7 +90,8 @@ export default class LoginForm extends Component {
 
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => this.login()}>
+          onPress={() => this.login()}
+        >
           <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
       </View>
@@ -100,7 +101,7 @@ export default class LoginForm extends Component {
 
 const styles = {
   container: {
-    padding: 20,
+    padding: 20
   },
 
   input: {
@@ -108,18 +109,18 @@ const styles = {
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 10,
     color: Colors.white,
-    paddingHorizontal: 10,
+    paddingHorizontal: 10
   },
 
   buttonContainer: {
     backgroundColor: Colors.white,
     paddingVertical: 15,
-    marginTop: 20,
+    marginTop: 20
   },
 
   buttonText: {
     textAlign: 'center',
     color: Colors.primary_text,
-    fontWeight: '700',
-  },
+    fontWeight: '700'
+  }
 };

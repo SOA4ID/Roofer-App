@@ -6,10 +6,10 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-  AsyncStorage,
+  AsyncStorage
 } from 'react-native';
 
-import Colors from '../../assets/colors';
+import Colors from '../config/colors';
 import { Toast } from 'native-base';
 
 export default class SignupForm extends Component {
@@ -20,7 +20,7 @@ export default class SignupForm extends Component {
       username: '',
       password: '',
       confirm: '',
-      email: '',
+      email: ''
     };
   }
 
@@ -28,7 +28,7 @@ export default class SignupForm extends Component {
     if (this.state.password !== this.state.confirm) {
       Toast.show({
         text: 'Passwords do not match',
-        buttonText: 'Okay',
+        buttonText: 'Okay'
       });
     } else {
       console.log(this.state.username);
@@ -36,13 +36,13 @@ export default class SignupForm extends Component {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           username: this.state.username,
           email: this.state.email,
-          password: this.state.password,
-        }),
+          password: this.state.password
+        })
       })
         .then(response => response.json())
         .then(responseJson => {
@@ -53,7 +53,7 @@ export default class SignupForm extends Component {
           } else {
             Toast.show({
               text: responseJson.message,
-              buttonText: 'Okay',
+              buttonText: 'Okay'
             });
           }
         })
@@ -75,31 +75,31 @@ export default class SignupForm extends Component {
     return (
       <View style={styles.container}>
         <TextInput
-          placeholder="username"
-          placeholderTextColor="rgba(255,255,255,0.8)"
+          placeholder='username'
+          placeholderTextColor='rgba(255,255,255,0.8)'
           style={styles.input}
           onSubmitEditing={() => this.emailInput.focus()}
-          autoCapitalize="none"
+          autoCapitalize='none'
           autoCorrect={false}
           ref={input => (this.usernameInput = input)}
           onChangeText={username => this.setState({ username })}
           value={this.state.username}
         />
         <TextInput
-          placeholder="email"
-          placeholderTextColor="rgba(255,255,255,0.8)"
+          placeholder='email'
+          placeholderTextColor='rgba(255,255,255,0.8)'
           style={styles.input}
           onSubmitEditing={() => this.passwordInput.focus()}
-          keyboardType="email-address"
-          autoCapitalize="none"
+          keyboardType='email-address'
+          autoCapitalize='none'
           autoCorrect={false}
           ref={input => (this.emailInput = input)}
           onChangeText={email => this.setState({ email })}
           value={this.state.email}
         />
         <TextInput
-          placeholder="password"
-          placeholderTextColor="rgba(255,255,255,0.8)"
+          placeholder='password'
+          placeholderTextColor='rgba(255,255,255,0.8)'
           secureTextEntry
           style={styles.input}
           onSubmitEditing={() => this.confirmPasswordInput.focus()}
@@ -109,8 +109,8 @@ export default class SignupForm extends Component {
         />
 
         <TextInput
-          placeholder="confirm password"
-          placeholderTextColor="rgba(255,255,255,0.8)"
+          placeholder='confirm password'
+          placeholderTextColor='rgba(255,255,255,0.8)'
           secureTextEntry
           style={styles.input}
           ref={input => (this.confirmPasswordInput = input)}
@@ -120,7 +120,8 @@ export default class SignupForm extends Component {
 
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => this.signup()}>
+          onPress={() => this.signup()}
+        >
           <Text style={styles.buttonText}>SIGN UP</Text>
         </TouchableOpacity>
       </View>
@@ -130,7 +131,7 @@ export default class SignupForm extends Component {
 
 const styles = {
   container: {
-    padding: 20,
+    padding: 20
   },
 
   input: {
@@ -138,18 +139,18 @@ const styles = {
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 10,
     color: Colors.white,
-    paddingHorizontal: 10,
+    paddingHorizontal: 10
   },
 
   buttonContainer: {
     backgroundColor: Colors.white,
     paddingVertical: 15,
-    marginTop: 20,
+    marginTop: 20
   },
 
   buttonText: {
     textAlign: 'center',
     color: Colors.primary_text,
-    fontWeight: '700',
-  },
+    fontWeight: '700'
+  }
 };

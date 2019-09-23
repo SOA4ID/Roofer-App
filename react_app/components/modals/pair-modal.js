@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Text, Dimensions, TextInput, AsyncStorage } from 'react-native';
+import { AsyncStorage, Dimensions, Text, TextInput } from 'react-native';
 
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
 
-import Colors from '../../assets/colors';
-import { colors } from 'react-native-elements';
+import Colors from '../config/colors';
 
 export default class PairModal extends Component {
   constructor(props) {
@@ -15,7 +14,7 @@ export default class PairModal extends Component {
       pairNumber: '',
       username: '',
       isPaired: false,
-      PairedDevices: null,
+      PairedDevices: null
     };
   }
 
@@ -27,7 +26,7 @@ export default class PairModal extends Component {
     try {
       await AsyncStorage.setItem(
         'PairedDevices',
-        JSON.stringify(this.state.PairedDevices),
+        JSON.stringify(this.state.PairedDevices)
       );
     } catch (error) {
       // Error saving data
@@ -55,12 +54,12 @@ export default class PairModal extends Component {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         unitNumber: this.state.pairNumber,
-        owner: this.state.username,
-      }),
+        owner: this.state.username
+      })
     })
       .then(response => response.json())
       .then(responseJson => {
@@ -84,12 +83,12 @@ export default class PairModal extends Component {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         unitNumber: this.state.pairNumber,
-        username: this.state.username,
-      }),
+        username: this.state.username
+      })
     })
       .then(response => response.json())
       .then(responseJson => {
@@ -119,16 +118,17 @@ export default class PairModal extends Component {
       <Modal
         ref={modal => (this.myModal = modal)}
         style={styles.modal}
-        position="center"
+        position='center'
         backdrop={true}
         onClosed={() => {
           //alert('Modal closed');
-        }}>
+        }}
+      >
         <Text style={styles.modal_title}>PAIRING</Text>
         <TextInput
           style={styles.input}
           onChangeText={text => this.setState({ pairNumber: text })}
-          placeholder="Model Number"
+          placeholder='Model Number'
           value={this.state.pairNumber}
         />
         <Button
@@ -141,7 +141,8 @@ export default class PairModal extends Component {
             } else {
               this.pair();
             }
-          }}>
+          }}
+        >
           PAIR
         </Button>
       </Modal>
@@ -154,13 +155,13 @@ const styles = {
     justifyContent: 'center',
     shadowRadius: 10,
     width: Dimensions.get('screen').width - 30,
-    height: 280,
+    height: 280
   },
   modal_title: {
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 40,
+    marginTop: 40
   },
   input: {
     height: 40,
@@ -171,7 +172,7 @@ const styles = {
     marginRight: 30,
     marginBottom: 40,
     color: Colors.primary_dark,
-    paddingHorizontal: 10,
+    paddingHorizontal: 10
   },
   modal_button: {
     padding: 18,
@@ -180,10 +181,10 @@ const styles = {
     height: 50,
     justifyContent: 'center',
     borderRadius: 6,
-    backgroundColor: Colors.primary_dark,
+    backgroundColor: Colors.primary_dark
   },
   button_text: {
     fontSize: 18,
-    color: Colors.white,
-  },
+    color: Colors.white
+  }
 };

@@ -53,7 +53,7 @@ buck-out/
 */fastlane/screenshots
 
 #Configs
-/assets/Config.js
+/components/config/Config.js
 
 # Bundle artifact
 *.jsbundle

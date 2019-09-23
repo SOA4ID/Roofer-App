@@ -1,20 +1,18 @@
-/* eslint-disable react-native/no-inline-styles */
-
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
-// Navigation Imports
+
 import { createAppContainer } from 'react-navigation';
 import {
   createDrawerNavigator,
-  DrawerNavigatorItems,
+  DrawerNavigatorItems
 } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Container, Content } from 'native-base';
-// Screen Imports
-import HomeScreen from './screens/home-screen';
-import SettingsScreen from './screens/settings-screen';
-// Asset Imports
-import Colors from '../assets/colors';
+
+import HomeScreen from '../screens/home-screen';
+import SettingsScreen from '../screens/settings-screen';
+
+import Colors from '../config/colors';
 
 class NavigationDrawerStructure extends Component {
   //Structure for the navigation Drawer
@@ -28,7 +26,7 @@ class NavigationDrawerStructure extends Component {
         <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
           {/*Donute Button Image */}
           <Image
-            source={require('../assets/images/menu.png')}
+            source={require('../../assets/images/menu.png')}
             style={{ width: 25, height: 25, marginLeft: 5 }}
           />
         </TouchableOpacity>
@@ -45,11 +43,11 @@ const Home_StackNavigator = createStackNavigator({
       title: 'Home',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: Colors.primary_dark,
+        backgroundColor: Colors.primary_dark
       },
-      headerTintColor: '#fff',
-    }),
-  },
+      headerTintColor: '#fff'
+    })
+  }
 });
 
 const Settings_StackNavigator = createStackNavigator({
@@ -60,18 +58,18 @@ const Settings_StackNavigator = createStackNavigator({
       title: 'Settings  ',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: Colors.primary_dark,
+        backgroundColor: Colors.primary_dark
       },
-      headerTintColor: '#fff',
-    }),
-  },
+      headerTintColor: '#fff'
+    })
+  }
 });
 
 const CustomDrawerComponent = props => (
   <Container style={styles.container}>
     <Content>
       <Image
-        source={require('../assets/images/logo.png')}
+        source={require('../../assets/images/logo.png')}
         style={styles.logo}
       />
 
@@ -81,28 +79,27 @@ const CustomDrawerComponent = props => (
 );
 
 const DrawerNav = createDrawerNavigator(
-  
   {
     Home: {
       screen: Home_StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Home',
-      },
+        drawerLabel: 'Home'
+      }
     },
     Controls: {
       screen: Settings_StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Controls',
-      },
-    },
+        drawerLabel: 'Controls'
+      }
+    }
   },
   {
     initialRouteName: 'Home',
     contentComponent: CustomDrawerComponent,
     drawerOpenRoute: 'Drawer-open',
     DrawerCloseRoute: 'DrawerClose',
-    drawerToggleRoute: 'DrawerToggle',
-  },
+    drawerToggleRoute: 'DrawerToggle'
+  }
 );
 
 const styles = {
@@ -112,14 +109,14 @@ const styles = {
     alignSelf: 'center',
     borderRadius: 75,
     marginBottom: 25,
-    marginTop: 10,
+    marginTop: 10
   },
   container: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.white
   },
   content: {
-    backgroundColor: Colors.white,
-  },
+    backgroundColor: Colors.white
+  }
 };
 
 export default createAppContainer(DrawerNav);
