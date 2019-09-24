@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { Icon, Container, Content, View, Text, Button } from 'native-base';
 import init from 'react_native_mqtt';
 import { AsyncStorage } from 'react-native';
+import ActionButton from 'react-native-action-button';
 
 import config from '../config/Config';
 import Colors from '../config/colors';
 
 import PairModal from '../modals/pair-modal';
+import ControlsModal from '../modals/controls-modal';
+import LogOutModal from '../modals/logout-modal';
 
 init({
   size: 10000,
@@ -18,6 +21,10 @@ init({
 });
 
 export default class HomeScreen extends Component {
+  static navigationOptions = {
+    header: null
+  };
+
   constructor(props) {
     super(props);
 
@@ -110,9 +117,6 @@ export default class HomeScreen extends Component {
             <Text style={styles.temp_text}>{this.state.temp}</Text>
             <Text style={styles.temp_unit}>°C</Text>
           </View>
-          <View>
-            <Text>{this.state.username}</Text>
-          </View>
           <View style={styles.sensor_view}>
             <View style={styles.light_view}>
               <Icon name='light-up' type='Entypo' style={styles.light_icon} />
@@ -125,6 +129,34 @@ export default class HomeScreen extends Component {
               <Text style={styles.unit_text}>%</Text>
             </View>
           </View>
+          <ActionButton
+            buttonColor={Colors.white}
+            backgroundColor='rgba(255,255,255,0.2)'
+            buttonTextStyle={styles.actionButtonIcon}
+          >
+            <ActionButton.Item
+              buttonColor={Colors.primary_light}
+              title='Log Out'
+              onPress={() => this.logoutModal.show()}
+            >
+              <Icon name='md-exit' style={styles.actionButtonIcon} />
+            </ActionButton.Item>
+            <ActionButton.Item
+              buttonColor={Colors.primary_light}
+              title='Device Options'
+              onPress={() => this.controlsModal.show()}
+            >
+              <Icon name='md-options' style={styles.actionButtonIcon} />
+            </ActionButton.Item>
+          </ActionButton>
+          <LogOutModal
+            ref={modal => (this.logoutModal = modal)}
+            navigation={this.props.navigation}
+          />
+          <ControlsModal
+            ref={modal => (this.controlsModal = modal)}
+            parentComponent={this}
+          />
         </Content>
       </Container>
     );
@@ -212,11 +244,19 @@ const styles = {
     alignItems: 'center'
   },
 
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: Colors.primary_dark
+  },
+
   sensor_view: {
     alignContent: 'flex-start',
     justifyContent: 'center',
     marginBottom: 5,
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
+    position: 'absolute',
+    bottom: 5
   },
 
   temp_text: {

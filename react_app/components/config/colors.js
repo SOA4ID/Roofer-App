@@ -7,6 +7,8 @@ const Colors = {
   primary_text: '#8693AB',
   yellow: '#FFC500',
   baby_blue: '#89CFF0',
+  danger: '#a83232',
+  success: '#32a859'
 };
 
 export default Colors;
