@@ -23,6 +23,7 @@ export default class SignupScreen extends Component {
           <Text style={styles.buttonText}> Already have an account? Login</Text>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate('Login')}
+            style={styles.button}
           >
             <Text style={styles.buttonText}> HERE </Text>
           </TouchableOpacity>
@@ -30,7 +31,7 @@ export default class SignupScreen extends Component {
           <Text style={styles.title}>SIGN UP</Text>
         </View>
         <View style={styles.formContainer}>
-          <SignupForm napasswordpasswordvigation={this.props.navigation} />
+          <SignupForm navigation={this.props.navigation} />
         </View>
       </View>
     );
@@ -66,5 +67,8 @@ const styles = {
     color: Colors.primary_text,
     fontWeight: '700',
     marginTop: 15
+  },
+  button: {
+    borderRadius: 15
   }
 };

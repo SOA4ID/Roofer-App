@@ -37,7 +37,7 @@ export default class App extends Component {
     super(props);
 
     this._retrieveData();
-    console.disableYellowBox = true;
+    console.disableYellowBox = true; // Disables warnings
 
     this.state = {
       isLogged: false // Keeps track of the login state of the user

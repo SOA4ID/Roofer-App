@@ -26,6 +26,7 @@ export default class Login extends Component {
           </Text>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate('SignUp')}
+            style={styles.button}
           >
             <Text style={styles.buttonText}> HERE </Text>
           </TouchableOpacity>
@@ -69,5 +70,8 @@ const styles = {
     color: Colors.primary_text,
     fontWeight: '700',
     marginTop: 15
+  },
+  button: {
+    borderRadius: 15
   }
 };

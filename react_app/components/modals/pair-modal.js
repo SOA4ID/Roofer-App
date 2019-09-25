@@ -154,7 +154,7 @@ const styles = {
   modal: {
     justifyContent: 'center',
     shadowRadius: 10,
-    borderRadius: 45,
+    borderRadius: 25,
     width: Dimensions.get('screen').width - 30,
     height: 280
   },

@@ -143,7 +143,7 @@ const styles = {
   modal: {
     justifyContent: 'flex-start',
     shadowRadius: 10,
-    borderRadius: 45,
+    borderRadius: 25,
     width: Dimensions.get('screen').width - 30,
     height: 500
   },
@@ -158,7 +158,7 @@ const styles = {
   modal_subtitle: {
     fontSize: 16,
     color: Colors.primary_dark,
-    marginLeft: 5
+    marginLeft: 17
   },
 
   modal_content: {
@@ -180,7 +180,7 @@ const styles = {
   },
   modal_cancel_button: {
     padding: 18,
-    marginTop: 50,
+    marginTop: 40,
     width: 60,
     height: 60,
     justifyContent: 'center',
@@ -194,6 +194,9 @@ const styles = {
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold'
+  },
+  checkbox_text: {
+    marginLeft: 10
   }
 };
 
@@ -213,7 +216,7 @@ const CustomRow = ({
         onPress={() => parentComponent.toggle(onCmd, offCmd, unitN)}
       />
       <Body>
-        <Text>Enable Automatic Mode</Text>
+        <Text style={styles.checkbox_text}>Enable Automatic Mode</Text>
       </Body>
     </ListItem>
     <Button

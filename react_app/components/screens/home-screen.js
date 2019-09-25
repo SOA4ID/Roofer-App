@@ -174,7 +174,6 @@ export default class HomeScreen extends Component {
           </View>
           <Button
             light
-            rounded
             style={styles.button}
             onPress={() => this.pairModal.show()}
           >
@@ -300,7 +299,9 @@ const styles = {
 
   button: {
     alignSelf: 'center',
-    marginTop: 15
+    marginTop: 15,
+    borderRadius: 15,
+    height: 50
   },
 
   button_text: {

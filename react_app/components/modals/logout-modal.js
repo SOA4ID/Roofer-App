@@ -62,7 +62,7 @@ const styles = {
   modal: {
     justifyContent: 'center',
     shadowRadius: 10,
-    borderRadius: 45,
+    borderRadius: 25,
     width: Dimensions.get('screen').width - 30,
     height: 280
   },
@@ -94,7 +94,7 @@ const styles = {
     width: 100,
     height: 60,
     justifyContent: 'center',
-    borderRadius: 30,
+    borderRadius: 15,
     backgroundColor: Colors.success,
     alignSelf: 'center'
   },
@@ -106,7 +106,7 @@ const styles = {
     width: 100,
     height: 60,
     justifyContent: 'center',
-    borderRadius: 30,
+    borderRadius: 15,
     backgroundColor: Colors.danger,
     alignSelf: 'center'
   },
