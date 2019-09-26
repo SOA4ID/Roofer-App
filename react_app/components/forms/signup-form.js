@@ -1,18 +1,18 @@
 import React from 'react';
 import { Component } from 'react';
-
 import {
-  View,
+  AsyncStorage,
+  Text,
   TextInput,
   TouchableOpacity,
-  Text,
-  AsyncStorage
+  View
 } from 'react-native';
-
-import Colors from '../config/colors';
 import { Toast } from 'native-base';
 
+import Colors from '../config/colors';
+
 export default class SignupForm extends Component {
+  // Constructor for the SignUp page
   constructor(props) {
     super(props);
 
@@ -24,6 +24,7 @@ export default class SignupForm extends Component {
     };
   }
 
+  // Store credential in the database
   signup = () => {
     if (this.state.password !== this.state.confirm) {
       Toast.show({
@@ -63,6 +64,7 @@ export default class SignupForm extends Component {
     }
   };
 
+  // Save username to local storage
   _storeData = async () => {
     try {
       await AsyncStorage.setItem('userName', this.state.username);
@@ -71,6 +73,7 @@ export default class SignupForm extends Component {
     }
   };
 
+  // Render the SignUp page
   render() {
     return (
       <View style={styles.container}>
@@ -130,27 +133,24 @@ export default class SignupForm extends Component {
 }
 
 const styles = {
+  buttonContainer: {
+    backgroundColor: Colors.white,
+    marginTop: 20,
+    paddingVertical: 15
+  },
+  buttonText: {
+    color: Colors.primary_text,
+    fontWeight: '700',
+    textAlign: 'center'
+  },
   container: {
     padding: 20
   },
-
   input: {
-    height: 40,
     backgroundColor: 'rgba(255,255,255,0.2)',
-    marginBottom: 10,
     color: Colors.white,
+    height: 40,
+    marginBottom: 10,
     paddingHorizontal: 10
-  },
-
-  buttonContainer: {
-    backgroundColor: Colors.white,
-    paddingVertical: 15,
-    marginTop: 20
-  },
-
-  buttonText: {
-    textAlign: 'center',
-    color: Colors.primary_text,
-    fontWeight: '700'
   }
 };

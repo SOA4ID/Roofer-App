@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { AsyncStorage, Dimensions, Text, TextInput } from 'react-native';
-
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
 
 import Colors from '../config/colors';
 
 export default class PairModal extends Component {
+  // Constructor fot the modal
   constructor(props) {
     super(props);
 
@@ -18,10 +18,12 @@ export default class PairModal extends Component {
     };
   }
 
+  // Show the modal on screen
   show = () => {
     this.myModal.open();
   };
 
+  // Save paired devices to local storage
   _storeData = async () => {
     try {
       await AsyncStorage.setItem(
@@ -33,6 +35,7 @@ export default class PairModal extends Component {
     }
   };
 
+  // Retrieve username from local storage
   _retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('userName');
@@ -45,6 +48,7 @@ export default class PairModal extends Component {
     }
   };
 
+  // Pair device within the database
   pair = () => {
     console.log(this.state.pairNumber);
     console.log('username');
@@ -78,6 +82,7 @@ export default class PairModal extends Component {
       });
   };
 
+  // Get paired devices from the database
   getPairedDevices = () => {
     return fetch('https://ancient-reaches-30875.herokuapp.com/users/roofs', {
       method: 'POST',
@@ -108,11 +113,13 @@ export default class PairModal extends Component {
       });
   };
 
+  // Load variables before rendering the modal
   componentDidMount() {
     this._retrieveData();
     console.log(this.state.username);
   }
 
+  // Render modal contents
   render() {
     return (
       <Modal
@@ -151,41 +158,41 @@ export default class PairModal extends Component {
 }
 
 const styles = {
+  button_text: {
+    color: Colors.white,
+    fontSize: 18
+  },
   modal: {
+    borderRadius: 25,
+    height: 280,
     justifyContent: 'center',
     shadowRadius: 10,
-    borderRadius: 25,
-    width: Dimensions.get('screen').width - 30,
-    height: 280
+    width: Dimensions.get('screen').width - 30
+  },
+  modal_button: {
+    backgroundColor: Colors.primary_dark,
+    borderRadius: 6,
+    height: 50,
+    justifyContent: 'center',
+    marginLeft: 70,
+    marginRight: 70,
+    padding: 18
   },
   modal_title: {
     fontSize: 16,
     fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 40
+    marginTop: 40,
+    textAlign: 'center'
   },
   input: {
-    height: 40,
     borderBottomColor: Colors.primary_dark,
     borderBottomWidth: 1,
-    marginTop: 20,
+    color: Colors.primary_dark,
+    height: 40,
+    marginBottom: 40,
     marginLeft: 30,
     marginRight: 30,
-    marginBottom: 40,
-    color: Colors.primary_dark,
+    marginTop: 20,
     paddingHorizontal: 10
-  },
-  modal_button: {
-    padding: 18,
-    marginLeft: 70,
-    marginRight: 70,
-    height: 50,
-    justifyContent: 'center',
-    borderRadius: 6,
-    backgroundColor: Colors.primary_dark
-  },
-  button_text: {
-    fontSize: 18,
-    color: Colors.white
   }
 };

@@ -8,11 +8,12 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-
-import Colors from '../config/colors';
 import { Toast } from 'native-base';
 
+import Colors from '../config/colors';
+
 export default class LoginForm extends Component {
+  // Constructor for the LogIn page
   constructor(props) {
     super(props);
 
@@ -23,6 +24,7 @@ export default class LoginForm extends Component {
     };
   }
 
+  // Check credentials with the database
   login = () => {
     console.log(this.state.username);
     return fetch('https://ancient-reaches-30875.herokuapp.com/users/login', {
@@ -54,6 +56,7 @@ export default class LoginForm extends Component {
       });
   };
 
+  // Save username to local storage
   _storeData = async () => {
     try {
       await AsyncStorage.setItem('userName', this.state.username);
@@ -62,6 +65,7 @@ export default class LoginForm extends Component {
     }
   };
 
+  // Render the LogIn page
   render() {
     return (
       <View style={styles.container}>
@@ -100,27 +104,24 @@ export default class LoginForm extends Component {
 }
 
 const styles = {
+  buttonContainer: {
+    backgroundColor: Colors.white,
+    marginTop: 20,
+    paddingVertical: 15
+  },
+  buttonText: {
+    color: Colors.primary_text,
+    fontWeight: '700',
+    textAlign: 'center'
+  },
   container: {
     padding: 20
   },
-
   input: {
-    height: 40,
     backgroundColor: 'rgba(255,255,255,0.2)',
-    marginBottom: 10,
     color: Colors.white,
+    height: 40,
+    marginBottom: 10,
     paddingHorizontal: 10
-  },
-
-  buttonContainer: {
-    backgroundColor: Colors.white,
-    paddingVertical: 15,
-    marginTop: 20
-  },
-
-  buttonText: {
-    textAlign: 'center',
-    color: Colors.primary_text,
-    fontWeight: '700'
   }
 };

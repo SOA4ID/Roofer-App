@@ -7,8 +7,7 @@ import {
   Text,
   View
 } from 'react-native';
-import { Body, CheckBox, ListItem, Button, Col } from 'native-base';
-
+import { Body, Button, CheckBox, ListItem } from 'native-base';
 import Modal from 'react-native-modalbox';
 
 import Colors from '../config/colors';
@@ -25,10 +24,12 @@ export default class ControlsModal extends Component {
     };
   }
 
+  // Function used to show the modal
   show = () => {
     this.myModal.open();
   };
 
+  // Retrieve list of paired devices from the local storage
   getDevices = async () => {
     try {
       const value = await AsyncStorage.getItem('PairedDevices');
@@ -45,6 +46,7 @@ export default class ControlsModal extends Component {
     }
   };
 
+  // Manages the automatic states for each individual roof
   stateManager = key => {
     console.log(key);
     if (key == 'DP-01') {
@@ -53,6 +55,8 @@ export default class ControlsModal extends Component {
       return this.state.descender_auto;
     }
   };
+
+  // Controls the automatic state of each individual roof
   toggle = (onCmd, offCmd, key) => {
     if (key == 'DP-01') {
       if (this.state.deployer_auto) {
@@ -73,14 +77,17 @@ export default class ControlsModal extends Component {
     }
   };
 
+  // Tells the MQTT Broker to activate a particular roof
   activate = cmd => {
     this.props.parentComponent.state.client.publish('/actions', cmd);
   };
 
+  // Load components before rendering the page
   componentDidMount = () => {
     this.getDevices();
   };
 
+  // To be rendered when the device is still loading elements
   renderLoading() {
     return (
       <View>
@@ -93,6 +100,7 @@ export default class ControlsModal extends Component {
     );
   }
 
+  // To be rendered when everything is ready to be shown
   renderList() {
     return (
       <View>
@@ -122,6 +130,7 @@ export default class ControlsModal extends Component {
     );
   }
 
+  // Manages what is rendered on the screen an when
   render() {
     return (
       <Modal
@@ -140,66 +149,66 @@ export default class ControlsModal extends Component {
 }
 
 const styles = {
-  modal: {
-    justifyContent: 'flex-start',
-    shadowRadius: 10,
-    borderRadius: 25,
-    width: Dimensions.get('screen').width - 30,
-    height: 500
-  },
-  modal_title: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-    color: Colors.primary_dark
-  },
-  modal_subtitle: {
-    fontSize: 16,
-    color: Colors.primary_dark,
-    marginLeft: 17
-  },
-
-  modal_content: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignContent: 'flex-start',
-    marginTop: 15,
-    marginBottom: 5
-  },
-  modal_button: {
-    padding: 18,
-    marginLeft: 70,
-    marginRight: 70,
-    marginTop: 20,
-    height: 50,
-    justifyContent: 'center',
-    borderRadius: 6,
-    backgroundColor: Colors.primary_dark
-  },
-  modal_cancel_button: {
-    padding: 18,
-    marginTop: 40,
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
-    borderRadius: 30,
-    backgroundColor: Colors.primary_text,
-    alignSelf: 'center'
-  },
   button_text: {
-    fontSize: 18,
-    color: Colors.white,
     alignSelf: 'center',
-    textAlign: 'center',
-    fontWeight: 'bold'
+    color: Colors.white,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
   checkbox_text: {
     marginLeft: 10
+  },
+  modal: {
+    borderRadius: 25,
+    height: 500,
+    justifyContent: 'flex-start',
+    shadowRadius: 10,
+    width: Dimensions.get('screen').width - 30
+  },
+  modal_button: {
+    backgroundColor: Colors.primary_dark,
+    borderRadius: 6,
+    height: 50,
+    justifyContent: 'center',
+    marginLeft: 70,
+    marginRight: 70,
+    marginTop: 20,
+    padding: 18
+  },
+  modal_cancel_button: {
+    alignSelf: 'center',
+    backgroundColor: Colors.primary_text,
+    borderRadius: 30,
+    height: 60,
+    justifyContent: 'center',
+    marginTop: 40,
+    padding: 18,
+    width: 60
+  },
+  modal_content: {
+    alignContent: 'flex-start',
+    flex: 1,
+    justifyContent: 'flex-start',
+    marginBottom: 5,
+    marginTop: 15
+  },
+  modal_title: {
+    color: Colors.primary_dark,
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    marginTop: 10,
+    textAlign: 'center'
+  },
+  modal_subtitle: {
+    color: Colors.primary_dark,
+    fontSize: 16,
+    marginLeft: 17
   }
 };
 
+// Custom UI element to render the controls for each individual roof
 const CustomRow = ({
   name,
   parentComponent,

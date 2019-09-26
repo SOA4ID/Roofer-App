@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Container, Content, View, Text, Button } from 'native-base';
+import { Button, Container, Content, Icon, Text, View } from 'native-base';
 import init from 'react_native_mqtt';
 import { AsyncStorage } from 'react-native';
 import ActionButton from 'react-native-action-button';
@@ -12,19 +12,21 @@ import ControlsModal from '../modals/controls-modal';
 import LogOutModal from '../modals/logout-modal';
 
 init({
-  size: 10000,
-  storageBackend: AsyncStorage,
   defaultExpires: 1000 * 3600 * 24,
   enableCache: true,
   reconnect: true,
+  size: 10000,
+  storageBackend: AsyncStorage,
   sync: {}
 });
 
 export default class HomeScreen extends Component {
+  // Disable headers for the home screen
   static navigationOptions = {
     header: null
   };
 
+  // Constructor for the home screen
   constructor(props) {
     super(props);
 
@@ -48,19 +50,21 @@ export default class HomeScreen extends Component {
       client
     };
   }
-  // MQTT functions
+  // To be called when the MQTT connection has failed
   failed = responseObject => {
     console.log('failed');
     console.log(responseObject.errorMessage);
     console.log(responseObject.errorCode);
   };
 
+  // To be called when the MQTT client has lost connection
   onConnectionLost = responseObject => {
     if (responseObject.errorCode !== 0) {
       console.log('onConnectionLost:' + responseObject.errorMessage);
     }
   };
 
+  // To be called when the MQTT client has successfully connected to the broker
   onConnect = () => {
     const { client } = this.state;
     client.subscribe('/temp');
@@ -69,6 +73,7 @@ export default class HomeScreen extends Component {
     console.log('Connected to the broker successfully');
   };
 
+  // to be called when data has been published to the MQTT broker
   onMessageArrived = message => {
     switch (message.destinationName) {
       case '/temp':
@@ -85,7 +90,7 @@ export default class HomeScreen extends Component {
     }
   };
 
-  // AsyncStorage functions
+  // Get username from the local storage
   _retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('userName');
@@ -98,6 +103,7 @@ export default class HomeScreen extends Component {
     }
   };
 
+  // Check if the user has any paired devices
   checkPairing = async () => {
     try {
       const value = await AsyncStorage.getItem('PairedDevices');
@@ -109,6 +115,7 @@ export default class HomeScreen extends Component {
     }
   };
 
+  // To be rendered when paired devices are found
   renderHome() {
     return (
       <Container>
@@ -162,7 +169,7 @@ export default class HomeScreen extends Component {
     );
   }
 
-  // Component functions
+  // TO be rendered when the user has no paired devices
   renderNoDevice() {
     return (
       <Container>
@@ -188,130 +195,117 @@ export default class HomeScreen extends Component {
     );
   }
 
+  // Load variables before rendering the screen
   componentDidMount() {
     this._retrieveData();
     this.checkPairing();
     console.log('MountH');
   }
 
+  // Manages what is rendered on the screen and when
   render() {
     return this.state.paired ? this.renderHome() : this.renderNoDevice();
   }
 }
 
 const styles = {
-  home_content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: Colors.primary_dark
-  },
-
-  paired_content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.primary_dark
-  },
-
-  light_icon: {
-    fontSize: 35,
-    marginRight: 10,
-    marginLeft: 5,
-    color: Colors.yellow
-  },
-
-  humidity_icon: {
-    fontSize: 35,
-    marginRight: 10,
-    marginLeft: 5,
-    color: Colors.baby_blue
-  },
-
-  light_view: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'flex-start'
-  },
-
-  temp_view: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center'
-  },
-
   actionButtonIcon: {
+    color: Colors.primary_dark,
     fontSize: 20,
-    height: 22,
-    color: Colors.primary_dark
+    height: 22
   },
-
-  sensor_view: {
-    alignContent: 'flex-start',
-    justifyContent: 'center',
-    marginBottom: 5,
-    alignSelf: 'flex-start',
-    position: 'absolute',
-    bottom: 5
-  },
-
-  temp_text: {
-    color: Colors.white,
-    fontSize: 90,
+  button: {
     alignSelf: 'center',
-    marginTop: 50,
-    marginBottom: 200
+    borderRadius: 15,
+    height: 50,
+    marginTop: 15
   },
-
-  temp_unit: {
-    color: Colors.primary_light,
-    fontSize: 60,
-    marginTop: 70,
-    alignSelf: 'center',
-    marginBottom: 200
+  button_text: {
+    color: Colors.primary_dark,
+    fontSize: 20
   },
-
-  sensor_text: {
-    color: Colors.white,
-    fontSize: 45,
-    alignSelf: 'flex-start'
+  defView: {
+    alignContent: 'center',
+    backgroundColor: Colors.primary_dark,
+    justifyContent: 'center'
   },
-
-  unit_text: {
-    color: Colors.primary_light,
-    fontSize: 45,
+  home_content: {
+    alignItems: 'center',
+    backgroundColor: Colors.primary_dark,
+    flex: 1,
+    justifyContent: 'space-between'
+  },
+  humidity_icon: {
+    color: Colors.baby_blue,
+    fontSize: 35,
+    marginLeft: 5,
+    marginRight: 10
+  },
+  light_icon: {
+    color: Colors.yellow,
+    fontSize: 35,
+    marginLeft: 5,
+    marginRight: 10
+  },
+  light_view: {
+    alignContent: 'center',
+    alignItems: 'center',
     alignSelf: 'flex-start',
-    marginLeft: 15
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
-
+  main_view: {
+    backgroundColor: Colors.black,
+    flex: 1
+  },
   message_text: {
     color: Colors.white,
     fontSize: 20,
     marginBottom: 20
   },
-  main_view: {
-    flex: 1,
-    backgroundColor: '#000000'
-  },
-
-  button: {
-    alignSelf: 'center',
-    marginTop: 15,
-    borderRadius: 15,
-    height: 50
-  },
-
-  button_text: {
-    fontSize: 20,
-    color: Colors.primary_dark
-  },
-
-  defView: {
+  paired_content: {
+    alignItems: 'center',
     backgroundColor: Colors.primary_dark,
-    alignContent: 'center',
+    flex: 1,
     justifyContent: 'center'
+  },
+  sensor_text: {
+    alignSelf: 'flex-start',
+    color: Colors.white,
+    fontSize: 45
+  },
+  sensor_view: {
+    alignContent: 'flex-start',
+    alignSelf: 'flex-start',
+    bottom: 5,
+    justifyContent: 'center',
+    marginBottom: 5,
+    position: 'absolute'
+  },
+  temp_text: {
+    alignSelf: 'center',
+    color: Colors.white,
+    fontSize: 90,
+    marginBottom: 200,
+    marginTop: 50
+  },
+  temp_unit: {
+    alignSelf: 'center',
+    color: Colors.primary_light,
+    fontSize: 60,
+    marginBottom: 200,
+    marginTop: 70
+  },
+  temp_view: {
+    alignContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  unit_text: {
+    alignSelf: 'flex-start',
+    color: Colors.primary_light,
+    fontSize: 45,
+    marginLeft: 15
   }
 };

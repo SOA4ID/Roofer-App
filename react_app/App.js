@@ -4,7 +4,6 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Root } from 'native-base';
 
-// Component imports
 import Login from './components/screens/login-screen';
 import SignupScreen from './components/screens/signup-screen';
 import HomeScreen from './components/screens/home-screen';
@@ -19,6 +18,7 @@ const RootStack = createStackNavigator(
   { initialRouteName: 'Main' }
 );
 
+// Main App Navigation
 const LoginStack = createStackNavigator(
   {
     Login: Login,
@@ -33,6 +33,7 @@ const AppContainer = createAppContainer(RootStack);
 const LoginContainer = createAppContainer(LoginStack);
 
 export default class App extends Component {
+  // Constructor for the app
   constructor(props) {
     super(props);
 
@@ -57,8 +58,7 @@ export default class App extends Component {
     }
   };
 
-  // Navigates to the login screen if the user is new, and to the main screen if the user has
-  // logged in the past
+  // Render Main App Content
   render() {
     return (
       <Root>{this.state.isLogged ? <AppContainer /> : <LoginContainer />}</Root>
