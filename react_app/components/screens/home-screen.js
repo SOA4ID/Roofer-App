@@ -140,6 +140,7 @@ export default class HomeScreen extends Component {
             buttonColor={Colors.white}
             backgroundColor='rgba(255,255,255,0.2)'
             buttonTextStyle={styles.actionButtonIcon}
+            icon={<Icon name='md-settings' style={styles.actionButtonIcon} />}
           >
             <ActionButton.Item
               buttonColor={Colors.primary_light}
