@@ -58,7 +58,7 @@ react-native run-ios
 
 ## Configuration
 
-For security reasons, some files have been excluded. In order to succesfully connect to the MQTT Broker, you'll need to navigate to the /assets folder, and create a file called **Config.js**, the file should hace the following structure:
+For security reasons, some files have been excluded. In order to succesfully connect to the MQTT Broker, you'll need to navigate to the /assets folder, and create a file called **Config.js**, the file should have the following structure:
 
 ```javascript
 const config = {
@@ -71,4 +71,4 @@ const config = {
 export default config;
 ```
 
-> **Important:** The MQTT client used in this project is based on `Paho.MQTT.Client`, which means that your MQTT Broker must support Websocket connections, and that is the port you should use during the implementation. If do not have a preferred MQTT Broker Service Provider already, you can check [this one](http://cloudmqtt.com), for a free and easy implementation.
+> **Important:** The MQTT client used in this project is based on `Paho.MQTT.Client`, which means that your MQTT Broker must support Websocket connections, and that is the port you should use during the implementation. If you do not have a preferred MQTT Broker Service Provider already, you can check [this one](http://cloudmqtt.com), for a free and easy implementation.
